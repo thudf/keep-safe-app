@@ -33,6 +33,12 @@ export default {
     "web": {
       "favicon": "./assets/favicon.png"
     },
+    "permissions": [
+      "LOCATION",
+      "ACCESS_COARSE_LOCATION", 
+      "ACCESS_FINE_LOCATION",
+      "FOREGROUND_SERVICE"
+    ],
     "extra": {
       firebaseApiKey: process.env.FIREBASE_API_KEY,
       firebaseAuthDomain: process.env.FIREBASE_AUTH_DOMAIN,

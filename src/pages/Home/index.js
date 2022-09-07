@@ -1,17 +1,48 @@
-import { View, Text, TouchableOpacity } from 'react-native';
+import PageLoader from '../../components/PageLoader';
+import CenterMap from './components/CenterMap';
+import UserMarker from './components/UserMarker';
 
-import { useAuth } from '../../hooks/auth'
+import useHome from './useHome';
+import { Container, Map } from './styles';
 
 const Home = () => {
-  const { signOut } = useAuth();
+  const {
+    loading,
+    mapLocation,
+    userLocation,
+    userLocationStatus,
+    showCenterMap,
+    handleCenterMap,
+    handleRegionChange,
+  } = useHome();
 
   return (
-    <View style={{ flex: 1, backgroundColor: 'red', justifyContent: 'center', alignItems: 'center' }}>
-      <Text>HOME</Text>
-      <TouchableOpacity onPress={() => signOut()}>
-        <Text>SignOut</Text>
-      </TouchableOpacity>
-    </View>
+    <Container>
+      {loading && <PageLoader />}
+
+      {!loading && (
+        <Map
+          region={mapLocation}
+          showsMyLocationButton={false}
+          showsPointsOfInterest={false}
+          showsCompass={false}
+          showsScale={false}
+          showsBuildings={false}
+          toolbarEnabled={false}
+          zoomControlEnabled={false}
+          moveOnMarkerPress={false}
+          onRegionChangeComplete={handleRegionChange}
+        >
+          {userLocationStatus === 'granted' && userLocation && (
+            <>
+              <UserMarker coordinate={userLocation} />
+            </>
+          )}
+        </Map>
+      )}
+
+      {showCenterMap && <CenterMap handleCenterMap={handleCenterMap} />}
+    </Container>
   );
 }
 

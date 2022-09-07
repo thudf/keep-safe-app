@@ -11,7 +11,6 @@ import {
 } from 'firebase/auth';
 
 const useSocialButton = (type) => {
-
   const socialButtonProps = {
     google: {
       icon: 'google',
