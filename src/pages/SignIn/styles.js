@@ -24,7 +24,7 @@ export const CreateAccount = styled.TouchableOpacity`
   padding-right: 8px;
   flex-direction: row;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: center;
   width: 100%;
 `;
 
@@ -39,7 +39,7 @@ export const CreateText = styled.Text`
   padding-left: 4px;
 `;
 
-export const OrContainer = styled.View`
+export const OrContainer = styled.TouchableOpacity`
   flex-direction: row;
   align-items: center;
   justify-content: center;

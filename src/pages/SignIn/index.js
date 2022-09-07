@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import {
   ScrollView,
   KeyboardAvoidingView,
@@ -42,6 +42,7 @@ const SignIn = () => {
   const [errors, setErrors] = useState({})
 
   const passwordInputRef = useRef(null);
+  const scrollViewRef = useRef();
 
   const setError = (error) => setErrors(errors => ({ ...errors, ...error }))
   const clearErrors = () => setErrors({})
@@ -128,6 +129,7 @@ const SignIn = () => {
           password: data.password,
         });
       } catch (err) {
+        console.log('AQUI_ERROR: ', err);
         if (err instanceof Yup.ValidationError) {
           const errors = getValidationErrors(err);
 
@@ -151,10 +153,6 @@ const SignIn = () => {
     [signIn],
   );
 
-  useEffect(() => {
-    console.log('errors: ', errors)
-  }, [errors])
-
   return (
     <>
       <KeyboardAvoidingView
@@ -163,7 +161,9 @@ const SignIn = () => {
         enabled
       >
         <ScrollView
+          ref={scrollViewRef}
           keyboardShouldPersistTaps="handled"
+          showsVerticalScrollIndicator={false}
           // contentContainerStyle={{ flex: 1 }}
         >
           <Container>
@@ -242,15 +242,21 @@ const SignIn = () => {
               </CreateAccount>
             </>
 
-            <OrContainer>
+            <OrContainer 
+              activeOpacity={0.8} 
+              onPress={() => {
+                scrollViewRef.current.scrollToEnd({animated: true});
+              }}
+              >
               <OrComponent>
                 <OrText>OU</OrText>
               </OrComponent>
             </OrContainer>
 
             <SocialLoginContainer>
-              <SocialButton icon={'Google'} iconColor="#566DE3" containerColor="#FFFFFF" />
-              <SocialButton icon={'Facebook'} iconColor="#FFFFFF" containerColor="#566DE3" />
+              <SocialButton type="google" />
+
+              <SocialButton type="facebook" />
             </SocialLoginContainer>
           </Container>
         </ScrollView>

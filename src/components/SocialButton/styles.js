@@ -26,6 +26,8 @@ export const Icon = styled(FontAwesome5Icon)`
 `;
 
 export const Text = styled.Text`
+  flex: 1;
+  text-align: center;
   font-size: 16px;
   font-weight: bold;
   margin-left: 16px;
