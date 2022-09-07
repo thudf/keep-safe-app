@@ -129,7 +129,6 @@ const SignIn = () => {
           password: data.password,
         });
       } catch (err) {
-        console.log('AQUI_ERROR: ', err);
         if (err instanceof Yup.ValidationError) {
           const errors = getValidationErrors(err);
 
@@ -234,8 +233,7 @@ const SignIn = () => {
               </Button>
 
               <CreateAccount
-                onPress={() => console.log('SignUp')}
-                // onPress={() => navigation.navigate('SignUp')}
+                onPress={() => navigation.navigate('SignUp')}
               >
                 <CreateAccountText>Não tem uma conta?</CreateAccountText>
                 <CreateText>Crie agora</CreateText>
