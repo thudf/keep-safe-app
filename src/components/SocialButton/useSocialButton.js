@@ -1,8 +1,10 @@
-import { Alert } from 'react-native'
+import { useEffect } from 'react';
+import { Alert } from 'react-native';
 import { ResponseType } from 'expo-auth-session';
 import * as Google from 'expo-auth-session/providers/google';
 import * as Facebook from 'expo-auth-session/providers/facebook';
 import { 
+  getAuth,
   signInWithCredential,
   GoogleAuthProvider,
   FacebookAuthProvider,
@@ -12,19 +14,19 @@ const useSocialButton = (type) => {
 
   const socialButtonProps = {
     google: {
-      icon: 'Google',
+      icon: 'google',
       iconColor: '#566DE3',
       containerColor: '#FFFFFF',
       title: 'Google',
-      textColor: '#FFFFFF',
+      textColor: '#566DE3',
       handlePress: () => promptAsyncGoogle(),
     },
     facebook: {
-      icon: 'Facebook',
+      icon: 'facebook',
       iconColor: '#FFFFFF',
       containerColor: '#566DE3',
       title: 'Facebook',
-      textColor: '#566DE3',
+      textColor: '#FFFFFF',
       handlePress: () => promptAsyncFacebook(),
     },
   };

@@ -40,10 +40,6 @@ const Input = (
     },
   }));
 
-  useEffect(() => {
-    console.log('ERROR: ', error)
-  }, [error])
-
   return (
     <>
       <Container style={containerStyle} isFocused={isFocused} isErrored={!!error}>
