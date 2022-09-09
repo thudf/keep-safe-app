@@ -163,7 +163,6 @@ const SignIn = () => {
           ref={scrollViewRef}
           keyboardShouldPersistTaps="handled"
           showsVerticalScrollIndicator={false}
-          // contentContainerStyle={{ flex: 1 }}
         >
           <Container>
             <Logo source={logoImg} style={{ resizeMode: 'contain' }} />

@@ -26,12 +26,12 @@ export const AuthProvider = ({ children }) => {
   const setStorageItem = async (user) => {
     await AsyncStorage.setItem('@KeepSafe:user', JSON.stringify(user));
     setData({ user });
-  }
+  };
 
   const removeStorageItem = async () => {
     await AsyncStorage.removeItem('@KeepSafe:user');
     setData(null);
-  }
+  };
 
   useEffect(() => {
     async function loadStorageData() {
@@ -50,9 +50,9 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const unsubscribeFromAuthStatusChanged = onAuthStateChanged(auth, (user) => {
       if (user) {
-        setStorageItem(user)
+        setStorageItem(user);
       } else {
-        removeStorageItem()
+        removeStorageItem();
       }
     });
 
@@ -61,15 +61,20 @@ export const AuthProvider = ({ children }) => {
 
   const signIn = useCallback(async ({ email, password }) => {
     await signInWithEmailAndPassword(auth, email, password);
-  }, [])
+  }, []);
 
   const signOut = useCallback(async () => {
     await signOutFirebase(auth);
-  }, [])
+  }, []);
 
   return (
     <AuthContext.Provider
-      value={{ user: data?.user, loading, signIn, signOut }}
+      value={{ 
+        user: data?.user, 
+        loading, 
+        signIn, 
+        signOut 
+      }}
     >
       {children}
     </AuthContext.Provider>

@@ -1,17 +1,18 @@
 import styled from 'styled-components/native';
-import { Dimensions } from 'react-native';
+import { Dimensions } from 'react-native'
 
 const screenHeight = Dimensions.get('screen').height;
 
 export const CenterMapContainer = styled.View`
   position: absolute;
-  top: ${(screenHeight/4) * 3}px;
+  bottom: ${screenHeight/5 * 1}px;
+  transform: translateY(18px);
   align-self: center;
 `;
 
 export const CenterMapButton = styled.TouchableOpacity`
   background-color: #566DE3;
-  padding: 12px 16px;
+  padding: 10px 14px;
   border-radius: 6px;
 `;
 
