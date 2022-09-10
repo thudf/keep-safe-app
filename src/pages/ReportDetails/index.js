@@ -51,10 +51,6 @@ const ReportDetails = ({ route: { params } }) => {
     }
   }, [isFocused]);
 
-  useEffect(() => {
-    console.log('address: ', address);
-  }, [address]);
-
   if (loading) return <PageLoader />;
 
   return (

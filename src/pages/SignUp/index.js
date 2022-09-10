@@ -53,13 +53,10 @@ const NewReport = () => {
 
         const { email, password } = data;
 
-        const response = await createUserWithEmailAndPassword(auth, email, password);
-
-        console.log('create: ', response);
+        await createUserWithEmailAndPassword(auth, email, password);
 
         setLoading(false);
       } catch (err) {
-        console.log(err);
         setLoading(false);
         if (err instanceof Yup.ValidationError) {
           const errors = getValidationErrors(err);
