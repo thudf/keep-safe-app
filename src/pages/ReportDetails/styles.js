@@ -29,16 +29,19 @@ export const FormContainer = styled.View`
   align-items: center;
   justify-content: center;
   width: 100%;
-  margin-bottom: 32px;
+  margin-bottom: 16px;
 `;
 
-export const LoaderContainer = styled.View`
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background-color: rgba(41, 41, 41, 0.9);
+export const Row = styled.View`
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  gap: 15px;
+`;
+
+export const Col = styled.View`
   align-items: center;
   justify-content: center;
+  width: 48%;
 `;

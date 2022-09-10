@@ -1,4 +1,4 @@
-import styled from 'styled-components/native';
+import styled, { css } from 'styled-components/native';
 
 export const LabelContainer = styled.View`
   width: 100%;
@@ -18,4 +18,14 @@ export const LabelText = styled.Text`
   margin-bottom: 0;
   padding-top: 0;
   padding-bottom: 0;
+  ${(props) =>
+    props.isFocused &&
+    css`
+      color: #566DE3;
+    `}
+  ${(props) =>
+    props.isErrored &&
+    css`
+      color: #c53030;
+    `}
 `;

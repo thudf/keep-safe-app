@@ -3,7 +3,8 @@ import styled from 'styled-components/native';
 export const Container = styled.TouchableOpacity`
   width: 100%;
   padding: 12px 0;
-  background: #566DE3 ;
+  background: ${props =>
+    props.color ? props.color : '#566DE3'};
   border-radius: 6px;
   margin-top: 6px;
   justify-content: center;

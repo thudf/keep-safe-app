@@ -7,10 +7,23 @@ import React, {
   useEffect,
 } from 'react';
 
-import { Container, TextInput, Icon, Error, ErrorText } from './styles';
+import Label from '../Label';
+
+import { Container, TextInput, Text, Icon, Error, ErrorText } from './styles';
 
 const Input = (
-  { icon, containerStyle = {}, onChange, onBlur, value, error, ...rest },
+  { 
+    label, 
+    icon, 
+    containerStyle = {},
+    padding = null,
+    onChange, 
+    onBlur, 
+    value, 
+    error,
+    disabled = false,
+    ...rest 
+  },
   ref,
 ) => {
   const inputElementRef = useRef(null);
@@ -42,28 +55,44 @@ const Input = (
 
   return (
     <>
-      <Container style={containerStyle} isFocused={isFocused} isErrored={!!error}>
+      {label && <Label label={label} isFocused={isFocused} isErrored={!!error} />}
+
+      <Container 
+        style={containerStyle}
+        isDisabled={disabled}
+        isFocused={isFocused} 
+        isErrored={!!error}
+      >
         <Icon
           name={icon}
           size={20}
           color={isFocused || isFilled ? '#566DE3' : '#666360'}
         />
 
-        <TextInput
-          ref={inputElementRef}
-          keyboardAppearance="dark"
-          placeholderTextColor="#666360"
-          defaultValue={''}
-          value={value}
-          onFocus={handleInputFocus}
-          onBlur={handleInputBlur}
-          onChangeText={onChange}
-          {...rest}
-        />
+        {!disabled && (
+          <TextInput
+            ref={inputElementRef}
+            keyboardAppearance="dark"
+            placeholderTextColor="#666360"
+            defaultValue={''}
+            value={value}
+            onFocus={handleInputFocus}
+            onBlur={handleInputBlur}
+            onChangeText={onChange}
+            {...rest}
+          />
+        )}
+
+        {disabled && (
+          <Text>{value}</Text>
+        )}
       </Container>
-      <Error>
-        {error && <ErrorText>{error}</ErrorText>}
-      </Error>
+
+      {!disabled && (
+        <Error>
+          {error && <ErrorText>{error}</ErrorText>}
+        </Error>
+      )}
     </>
   );
 };

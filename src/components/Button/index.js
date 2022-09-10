@@ -1,7 +1,7 @@
 import { Container, ButtonText } from './styles';
 
-const Button = ({ children, ...rest }) => (
-  <Container {...rest}>
+const Button = ({ color = "", children, ...rest }) => (
+  <Container color={color} {...rest}>
     <ButtonText>{children}</ButtonText>
   </Container>
 );

@@ -39,7 +39,7 @@ const SignIn = () => {
     getValues,
   } = useForm({ defaultValues: { email: '', password: '' } })
 
-  const [errors, setErrors] = useState({})
+  const [errors, setErrors] = useState({});
 
   const passwordInputRef = useRef(null);
   const scrollViewRef = useRef();
@@ -110,8 +110,8 @@ const SignIn = () => {
   const handleSignIn = useCallback(
     async () => {
       try {
-        clearErrors()
-        const data = getValues()
+        clearErrors();
+        const data = getValues();
 
         const schema = Yup.object().shape({
           email: Yup.string()

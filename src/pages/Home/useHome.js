@@ -1,8 +1,13 @@
 import { useEffect, useState } from 'react';
 import { Alert } from 'react-native';
+import { useIsFocused } from '@react-navigation/native';
 import * as Location from 'expo-location';
+import { getDatabase, ref, onValue} from "firebase/database";
 
 const useHome = () => {
+  const db = getDatabase();
+  const isFocused = useIsFocused();
+
   const [loading, setLoading] = useState(true);
   const [mapLocation, setMapLocation] = useState({
     latitude: 0,
@@ -16,6 +21,7 @@ const useHome = () => {
   });
   const [userLocationStatus, setUserLocationStatus] = useState(null);
   const [showCenterMap, setShowCenterMap] = useState(false);
+  const [reports, setReports] = useState([]);
 
   const handleRegionChange = (evt) => {
     setMapLocation({ ...evt })
@@ -84,6 +90,17 @@ const useHome = () => {
     }
   };
 
+  const handleWatchReports = () => {
+    const reportsRef = ref(db, 'reports/');
+    onValue(reportsRef, (snapshot) => {
+      const data = snapshot.val();
+      if (data) {
+        const reportList = Object.keys(data).map(key => ({ ...data[key], report_id: key }));
+        setReports(reportList);
+      }
+    });
+  };
+
   useEffect(() => {
     if (userLocationStatus && userLocationStatus !== 'granted') {
       Alert.alert('Localização Negada', 'Para utilizar o aplicativo, permita a localização!');
@@ -96,24 +113,57 @@ const useHome = () => {
   }, [userLocationStatus])
 
   useEffect(() => {
-    const isLatEqual = userLocation.latitude.toFixed(5) === mapLocation.latitude.toFixed(5);
-    const isLongEqual = userLocation.longitude.toFixed(5) === mapLocation.longitude.toFixed(5);
+    const diff = 0.00005;
 
-    if (!isLatEqual || !isLongEqual) {
+    const isLatEqual = () => {
+      const { latitude: userLat } = userLocation;
+      const { latitude: mapLat } = mapLocation;
+
+      const fixedUserLat = parseFloat(userLat.toFixed(5));
+      const fixedMapLat = parseFloat(mapLat.toFixed(5));
+
+      const max = fixedMapLat + diff;
+      const min = fixedMapLat - diff;
+
+      return fixedUserLat <= max && fixedUserLat >= min;
+    }
+
+    const isLongEqual = () => {
+      const { longitude: userLong } = userLocation;
+      const { longitude: mapLong } = mapLocation;
+
+      const fixedUserLong = parseFloat(userLong.toFixed(5));
+      const fixedMapLong = parseFloat(mapLong.toFixed(5));
+
+      const max = fixedMapLong + diff;
+      const min = fixedMapLong - diff;
+
+      return fixedUserLong <= max && fixedUserLong >= min;
+    }
+
+    if (!isLatEqual() || !isLongEqual()) {
       setShowCenterMap(true);
     }
 
-    if (isLatEqual && isLongEqual) {
+    if (isLatEqual() && isLongEqual()) {
       setShowCenterMap(false);
     }
   }, [userLocation, mapLocation]);
 
   useEffect(() => {
+    if (isFocused) {
+      handleCenterMap();
+    }
+  }, [isFocused]);
+
+  useEffect(() => {
     getUserLocationPermission();
+    handleWatchReports();
   }, []);
 
   return {
     loading,
+    reports,
     mapLocation,
     userLocation,
     userLocationStatus,

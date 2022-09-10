@@ -1,6 +1,7 @@
 import PageLoader from '../../components/PageLoader';
 import CenterMap from './components/CenterMap';
 import UserMarker from './components/UserMarker';
+import ReportMarker from './components/ReportMarker';
 
 import useHome from './useHome';
 
@@ -9,6 +10,7 @@ import { Container, Map } from './styles';
 const Home = () => {
   const {
     loading,
+    reports,
     mapLocation,
     userLocation,
     userLocationStatus,
@@ -35,6 +37,10 @@ const Home = () => {
             moveOnMarkerPress={false}
             onRegionChangeComplete={handleRegionChange}
           >
+            {reports.map(report => (
+              <ReportMarker key={report.report_id} report={report}  />
+            ))}
+
             {userLocationStatus === 'granted' && userLocation && (
               <>
                 <UserMarker coordinate={userLocation} />

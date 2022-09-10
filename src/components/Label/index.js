@@ -2,10 +2,12 @@ import React from 'react';
 
 import { LabelContainer, LabelText } from './styles';
 
-const Label = ({ label, textAlign = null }) => {
+const Label = ({ label, textAlign = null, isFocused, isErrored }) => {
   return (
     <LabelContainer textAlign={textAlign}>
-      <LabelText>{label}</LabelText>
+      <LabelText isFocused={isFocused} isErrored={isErrored}>
+        {label}
+      </LabelText>
     </LabelContainer>
   );
 }

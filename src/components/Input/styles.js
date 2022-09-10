@@ -11,6 +11,12 @@ export const Container = styled.View`
   flex-direction: row;
   align-items: center;
   ${(props) =>
+    props.isDisabled &&
+    css`
+      padding: 10px 4px;
+      margin-bottom: 6px;
+    `}
+  ${(props) =>
     props.isFocused &&
     css`
       border-color: #566DE3;
@@ -23,6 +29,12 @@ export const Container = styled.View`
 `;
 
 export const TextInput = styled.TextInput`
+  flex: 1;
+  color: #292929;
+  font-size: 16px;
+`;
+
+export const Text = styled.Text`
   flex: 1;
   color: #292929;
   font-size: 16px;
