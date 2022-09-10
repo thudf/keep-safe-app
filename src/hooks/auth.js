@@ -1,4 +1,5 @@
 import { createContext, useCallback, useContext, useEffect, useState } from 'react';
+import { LogBox } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { initializeApp } from "firebase/app";
 import * as WebBrowser from 'expo-web-browser';
@@ -16,6 +17,7 @@ const AuthContext = createContext({});
 initializeApp(firebaseConfig);
 
 WebBrowser.maybeCompleteAuthSession();
+LogBox.ignoreAllLogs();
 
 const auth = getAuth();
 
