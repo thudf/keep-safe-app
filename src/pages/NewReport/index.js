@@ -133,7 +133,7 @@ const NewReport = () => {
   return (
     <>
       <KeyboardAvoidingView
-        style={{ flex: 1, position: 'relative' }}
+        style={{ flex: 1, position: 'relative', backgroundColor: '#292929' }}
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}
         enabled
       >
