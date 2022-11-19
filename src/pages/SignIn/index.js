@@ -238,23 +238,6 @@ const SignIn = () => {
                 <CreateText>Crie agora</CreateText>
               </CreateAccount>
             </>
-
-            <OrContainer 
-              activeOpacity={0.8} 
-              onPress={() => {
-                scrollViewRef.current.scrollToEnd({animated: true});
-              }}
-              >
-              <OrComponent>
-                <OrText>OU</OrText>
-              </OrComponent>
-            </OrContainer>
-
-            <SocialLoginContainer>
-              <SocialButton type="google" />
-
-              <SocialButton type="facebook" />
-            </SocialLoginContainer>
           </Container>
         </ScrollView>
       </KeyboardAvoidingView>

@@ -15,6 +15,7 @@ import { getDatabase, ref, set } from "firebase/database";
 import * as Yup from 'yup';
 
 import { useAuth } from '../../hooks/auth';
+import api from '../../services';
 
 import getValidationErrors from '../../utils/getValidationErrors';
 
@@ -27,7 +28,7 @@ import { Container, TitleContainer, Title, FormContainer, LoaderContainer } from
 
 const NewReport = () => {
   const db = getDatabase();
-  const { user: { uid } } = useAuth();
+  const { user: { uid, email } } = useAuth();
   const { 
     control, 
     getValues,
@@ -72,6 +73,19 @@ const NewReport = () => {
   
           if (latitude && longitude && uid && currentDate) {
             const reportId = uuid.v4();
+
+            const { data: users } = await api.get('user');
+            const { id: userId } = users.find(user => user.email === email);
+            console.log('id: ', id);
+
+            await api.post('issue', {
+              description: data.description,
+              latitude,
+              longitude,
+              issueTypeId: 1,
+              issueStatusId: 1,
+              userId
+            });
   
             await set(ref(db, `reports/${reportId}`), {
               latitude,

@@ -6,11 +6,11 @@ import {
   Alert,
   ActivityIndicator,
 } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
 import { useForm, Controller } from 'react-hook-form'
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import * as Yup from 'yup';
 
+import api from '../../services'
 import getValidationErrors from '../../utils/getValidationErrors';
 
 import Input from '../../components/Input'
@@ -20,7 +20,6 @@ import { Container, TitleContainer, Title, FormContainer, LoaderContainer } from
 
 const NewReport = () => {
   const auth = getAuth();
-  const navigation = useNavigation();
   const { 
     control, 
     getValues,
@@ -29,6 +28,7 @@ const NewReport = () => {
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({})
 
+  const emailInputRef = useRef(null);
   const passwordInputRef = useRef(null);
 
   const handleSignIn = useCallback(
@@ -39,6 +39,9 @@ const NewReport = () => {
         const data = getValues();
         
         const schema = Yup.object().shape({
+          name: Yup.string()
+            .required('Nome obrigatório')
+            .min(3, 'Nome deve conter ao menos 3 caracteres'),
           email: Yup.string()
             .required('E-mail obrigatório')
             .email('Digite um e-mail válido'),
@@ -53,10 +56,12 @@ const NewReport = () => {
 
         const { email, password } = data;
 
+        await api.post('/user', data);
         await createUserWithEmailAndPassword(auth, email, password);
-
+        
         setLoading(false);
       } catch (err) {
+        console.log('err: ', err);
         setLoading(false);
         if (err instanceof Yup.ValidationError) {
           const errors = getValidationErrors(err);
@@ -99,6 +104,31 @@ const NewReport = () => {
 
             <FormContainer>
               <Controller
+                name="name"
+                control={control}
+                rules={{
+                  required: true,
+                }}
+                render={({ field: { onChange, onBlur, value  } }) => (
+                  <Input
+                    autoCorrect={false}
+                    autoCapitalize="none"
+                    keyboardType="default"
+                    icon="user"
+                    placeholder="Nome"
+                    returnKeyType="next"
+                    onChange={onChange}
+                    onBlur={onBlur}
+                    value={value}
+                    error={errors.name}
+                    onSubmitEditing={() => {
+                      emailInputRef.current?.focus();
+                    }}
+                  />
+                )}
+              />
+
+              <Controller
                 name="email"
                 control={control}
                 rules={{
@@ -106,6 +136,7 @@ const NewReport = () => {
                 }}
                 render={({ field: { onChange, onBlur, value  } }) => (
                   <Input
+                    ref={emailInputRef}
                     autoCorrect={false}
                     autoCapitalize="none"
                     keyboardType="email-address"
